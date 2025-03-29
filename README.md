@@ -1,7 +1,7 @@
 # UniAPI - CS421 TASK
 
 ## Overview
-UniAPI is a Laravel-based API designed including programs, students. The API is built with Laravel 12 and deployed on an AWS EC2 instance.
+UniAPI is a Laravel-based API designed to manage programs and students. The API is built with Laravel 12 and deployed on an AWS EC2 instance.
 
 ## Features
 - ✅ Student Registration
@@ -15,84 +15,91 @@ UniAPI is a Laravel-based API designed including programs, students. The API is 
 ```bash
 git clone https://github.com/yourusername/uniAPI.git
 cd uniAPI
-
 ```
+
 ### 2. Install Dependencies
 ```bash
 composer install
-
 ```
 
-### 3. Environment Configuration
+### 3. Configure Environment
 ```bash
 cp .env.example .env
-Then update database settings in .env:
+```
+Update database settings in `.env`:
+```ini
 DB_CONNECTION=sqlite
 DB_DATABASE=/home/ubuntu/apps/uniAPI/database/database.sqlite
-
 ```
 
-### 4. Environment Configuration
+### 4. Generate Application Key
 ```bash
 php artisan key:generate
-
 ```
 
-### 5. Generate Application Key
-```bash
-php artisan key:generate
-
-```
-
-### 6. Run Migrations & Seeders
+### 5. Run Migrations & Seeders
 ```bash
 php artisan migrate --seed
-
 ```
 
-### 7. Start the Server
+### 6. Start the Server
 ```bash
 php artisan serve --host=0.0.0.0 --port=9090
-
 ```
 
 ## Deployment on AWS EC2
 
 ### Ensure your instance has:
-```bash
 - PHP 8.3
-
 - SQLite3
-
 - Apache/Nginx
-
 - Laravel dependencies
 
-```
-
 ## Contribution
+1. Fork the repository
+2. Create a new branch
+3. Commit your changes
+4. Push to your fork
+5. Open a pull request
 
-```bash
-- Fork the repository
+## Expected JSON Responses
 
-- Create a new branch
-
-- Commit your changes
-
-- Push to your fork
-
-- Open a pull request
-
-
+### Students:
+```json
+{
+    "success": true,
+    "count": 10,
+    "data": [
+        {
+            "name": "John Doe",
+            "program": "Software Engineering"
+        }
+    ]
+}
 ```
 
-# API Endpoints
+### Subjects:
+```json
+{
+    "success": true,
+    "program": "Software Engineering",
+    "data": {
+        "Year 1": [
+            {
+                "id": 1,
+                "name": "Principles of Programming Languages"
+            }
+        ],
+        "Year 2": [...],
+        "Year 3": [...],
+        "Year 4": [...]
+    }
+}
+```
 
-| Method      | Url           | Description                                                                       |
-|-------------|---------------|-----------------------------------------------------------------------------------|
-| GET         | /api/students | [List all students](http://13.60.14.29:9090/api/students)                         |
-| GET         | /api/subjects | [List all subjects](http://13.60.14.29:9090/api/students) |
+## API Endpoints
 
-
-``````
-
+| Method | URL            | Description |
+|--------|--------------|-------------|
+| GET    | `/api/students` | [List all students](http://13.60.14.29:9090/api/students) |
+| GET    | `/api/subjects` | [List all subjects](http://13.60.14.29:9090/api/subjects) |
