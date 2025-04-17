@@ -1,0 +1,33 @@
+name: Deploy Laravel App to EC2
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v3
+
+      - name: Setup SSH Agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+      - name: Deploy via SSH
+        run: |
+          ssh ubuntu@13.60.253.221 << 'EOF'
+            cd /apps/uniAPI
+
+            # Pull latest changes from master branch
+            git reset --hard
+            git pull origin master
+
+            # Install composer dependencies
+            composer install --no-interaction --prefer-dist --optimize-autoloader
+
+          EOF

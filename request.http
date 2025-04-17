@@ -2,12 +2,12 @@
 http://127.0.0.1:8000/api/students
 
 ###
-http://13.60.14.29:9090/api/students
+http://13.60.253.221:9090/api/students
 
 ###local
 http://127.0.0.1:8000/api/subjects
 
 ###
-http://13.60.14.29:9090/api/subjects
+http://13.60.253.221:9090/api/subjects
 
 
