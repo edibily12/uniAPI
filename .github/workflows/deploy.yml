@@ -9,25 +9,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install SSH Client
-        run: sudo apt-get install -y openssh-client
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Add EC2 to Known Hosts
+      - name: Configure SSH
         run: |
           mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/ec2_key
+          chmod 600 ~/.ssh/ec2_key
           ssh-keyscan ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
 
       - name: Deploy Code
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_IP }} << 'EOF'
+          ssh -i ~/.ssh/ec2_key -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_IP }} << 'EOF'
             cd /apps/uniAPI
 
-            # Clone or pull the public repo
-            if [ -d .git ]; then
-              git pull https://github.com/edibily12/uniAPI.git master
-            else
-              git clone https://github.com/edibily12/uniAPI.git .
-            fi
+            # Pull latest changes
+            git fetch --all
+            git reset --hard origin/master
 
             # Install dependencies
             composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
@@ -35,5 +34,5 @@ jobs:
             # Set permissions
             sudo chown -R www-data:www-data /apps/uniAPI
             sudo chmod -R 775 storage bootstrap/cache
-
+            php artisan optimize
           EOF
