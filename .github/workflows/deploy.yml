@@ -19,28 +19,34 @@ jobs:
       - name: Deploy Application
         run: |
           ssh -i ~/.ssh/ec2_key -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_IP }} << 'EOF'
-            # Create directory structure if it doesn't exist
+            # 1. Create directory with correct ownership
             sudo mkdir -p /apps/uniAPI
-            sudo chown -R ubuntu:ubuntu /apps/uniAPI
+            sudo chown -R ubuntu:www-data /apps/uniAPI
+            sudo chmod -R 775 /apps/uniAPI
 
-            # Navigate to project directory
+            # 2. Navigate to directory
             cd /apps/uniAPI
 
-            # Clone repository if not exists, otherwise pull updates
+            # 3. Clone or pull updates
             if [ -d .git ]; then
               git pull origin master
             else
               git clone https://github.com/edibily12/uniAPI.git .
             fi
 
-            # Install dependencies
+            # 4. Install dependencies
             composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
-            # Set permissions
-            sudo chown -R www-data:www-data /apps/uniAPI
-            sudo chmod -R 775 storage bootstrap/cache
+            # 5. Fix Laravel-specific permissions (critical fix)
+            sudo chown -R ubuntu:www-data /apps/uniAPI
+            sudo chmod -R 775 /apps/uniAPI/storage
+            sudo chmod -R 775 /apps/uniAPI/bootstrap/cache
 
-            # Optimize Laravel
-            php artisan optimize
+            # 6. Create Laravel log file with correct permissions
+            touch /apps/uniAPI/storage/logs/laravel.log
+            sudo chown www-data:www-data /apps/uniAPI/storage/logs/laravel.log
+            sudo chmod 664 /apps/uniAPI/storage/logs/laravel.log
 
+            # 8. Ensure www-data can write to cache
+            sudo chown -R www-data:www-data /apps/uniAPI/bootstrap/cache
           EOF
