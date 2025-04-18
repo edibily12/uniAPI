@@ -105,19 +105,69 @@ php artisan serve --host=0.0.0.0 --port=9090
 | GET    | `/api/subjects` | [List all subjects](http://13.60.253.221:9090/api/subjects) |
 
 
-## Backup Schemes
+# Server Management Scripts
 
-### 1. Full Backup
-**Execution**: Copies all selected files every time  
-**Advantages**: Simple to restore, complete data copy  
-**Disadvantages**: Storage-intensive, time-consuming
+This directory contains automated scripts for managing an AWS EC2 instance running a Laravel application.
 
-### 2. Incremental Backup
-**Execution**: Backs up only changed files since last backup (any type)  
-**Advantages**: Fast, storage-efficient  
-**Disadvantages**: Complex restore (need full + all incrementals)
+## Scripts Overview
 
-### 3. Differential Backup
-**Execution**: Backs up changes since last full backup  
-**Advantages**: Faster restore than incremental  
-**Disadvantages**: More storage than incremental
+### 1. `health_check.sh`
+- **Purpose**: Monitors server resources and API health
+- **Checks**:
+    - CPU/Memory/Disk usage
+    - Web server status (Apache/Nginx)
+    - API endpoint responsiveness
+- **Frequency**: Runs every 6 hours
+- **Logs**: `/path/to/log/server_health.log`
+
+### 2. `backup_api.sh`
+- **Purpose**: Creates compressed backups of the application and database
+- **Backups**:
+    - Application files to `/path/to/backups/api_backup_YYYY-MM-DD.tar.gz`
+    - MySQL database to `/path/to/backups/db_backup_YYYY-MM-DD.sql`
+    - Auto-deletes backups older than 7 days
+- **Frequency**: Daily at 2 AM
+- **Logs**: `/path/to/log/backup.log`
+
+### 3. `update_server.sh`
+- **Purpose**: Automates system and application updates
+- **Actions**:
+    - Updates Ubuntu packages (`apt update && apt upgrade`)
+    - Pulls latest code from GitHub
+    - Restarts web services
+- **Frequency**: Every 3 days at 3 AM
+- **Logs**: `/path/to/log/update.log`
+
+## Setup Instructions
+
+### Prerequisites
+Ensure these packages are installed:
+```bash
+    sudo apt update
+    sudo apt install -y curl git mysql-client
+```
+## Installation
+- **Clone this repository:**
+```bash
+    git clone https://github.com/edibily12/uniAPI.git
+```
+- **Set execute permissions:**
+```bash
+    chmod +x bash_scripts/*.sh 
+```
+- **Deploy scripts to /usr/local/bin/ or keep to home directory:**
+```bash
+    sudo cp bash_scripts/*.sh /usr/local/bin/ 
+```
+
+## Cron Job Configuration
+- **Edit crontab:**
+```bash
+    crontab -e
+````
+- **Add these lines:**
+```bash
+    0 */6 * * * /usr/local/bin/health_check.sh
+    0 2 * * * /usr/local/bin/backup_api.sh 
+    0 3 */3 * * /usr/local/bin/update_server.sh 
+```
