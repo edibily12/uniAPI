@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh
@@ -19,37 +22,40 @@ jobs:
       - name: Deploy Application
         run: |
           ssh -i ~/.ssh/ec2_key -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_IP }} << 'EOF'
-            #coppy bash scripts
-            if [! -d bash_scripts ]; then
-              mkdir -p bash_scripts
-            fi
-
-            cp ~/bash_scripts/*.sh bash_scripts/
-
-            # 1. Create directory with correct ownership
+            # 1. Create api directory structure
             sudo mkdir -p /apps/uniAPI
             sudo chown -R ubuntu:www-data /apps/uniAPI
             sudo chmod -R 775 /apps/uniAPI
 
-            # 2. Navigate to directory
-            cd /apps/uniAPI
+            # 2. Create scripts directory
+            mkdir -p /home/ubuntu/bash_scripts
+            chmod 755 /home/ubuntu/bash_scripts
 
-            # 3. Clone or pull updates
+            # 3. Deploy application code
+            cd /apps/uniAPI
             if [ -d .git ]; then
               git pull origin master
             else
               git clone https://github.com/edibily12/uniAPI.git .
             fi
 
-            # 4. Install dependencies
+            # 4. Deploy bash scripts from repo
+            cd /home/ubuntu/bash_scripts
+            if [ -d "/apps/uniAPI/bash_scripts" ]; then
+              cp -r /apps/uniAPI/bash_scripts/* .
+              chmod +x *.sh
+            fi
+
+            # 5. Laravel setup
+            cd /apps/uniAPI
             composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
-            # 5. Fix Laravel-specific permissions (critical fix)
+            # 6. Fix permissions
             sudo chown -R ubuntu:www-data /apps/uniAPI
             sudo chmod -R 775 /apps/uniAPI/storage
             sudo chmod -R 775 /apps/uniAPI/bootstrap/cache
 
-            # 6. Create Laravel log file with correct permissions
+            # 7. Set up log file
             touch /apps/uniAPI/storage/logs/laravel.log
             sudo chown www-data:www-data /apps/uniAPI/storage/logs/laravel.log
             sudo chmod 664 /apps/uniAPI/storage/logs/laravel.log
