@@ -20,7 +20,10 @@ jobs:
         run: |
           ssh -i ~/.ssh/ec2_key -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_IP }} << 'EOF'
             #coppy bash scripts
-            #mkdir -p bash_scripts2
+            if [! -d bash_scripts ]; then
+              mkdir -p bash_scripts
+            fi
+
             cp ~/bash_scripts/*.sh bash_scripts/
 
             # 1. Create directory with correct ownership
