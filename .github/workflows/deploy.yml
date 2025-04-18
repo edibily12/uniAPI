@@ -43,9 +43,9 @@ jobs:
           # Then run the deployment commands
           ssh -i ~/.ssh/ec2_key -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_IP }} << 'EOF'
             # 1. Create api directory
-            sudo mkdir -p ${{ secrets.BACKUP_DIR }}
-            sudo chown -R ubuntu:www-data ${{ secrets.BACKUP_DIR }}
-            sudo chmod -R 775 ${{ secrets.BACKUP_DIR }}
+            sudo mkdir -p ${{ secrets.API_DIR }}
+            sudo chown -R ubuntu:www-data ${{ secrets.API_DIR }}
+            sudo chmod -R 775 ${{ secrets.API_DIR }}
 
             # 2. Verify bash scripts were transferred
             echo "Contents of bash scripts:"
@@ -55,7 +55,7 @@ jobs:
             chmod +x ${{ secrets.BASH_DIR }}/*.sh
 
             # 4. Deploy api app
-            cd ${{ secrets.BACKUP_DIR }}
+            cd ${{ secrets.API_DIR }}
             if [ -d .git ]; then
               git pull origin master
             else
@@ -64,11 +64,11 @@ jobs:
 
             # 5. api setup
             composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
-            sudo chown -R www-data:www-data ${{ secrets.BACKUP_DIR }}/storage
-            sudo chown -R www-data:www-data ${{ secrets.BACKUP_DIR }}/bootstrap/cache
-            touch ${{ secrets.BACKUP_DIR }}/storage/logs/laravel.log
-            sudo chown www-data:www-data ${{ secrets.BACKUP_DIR }}/storage/logs/laravel.log
-            sudo chmod 664 ${{ secrets.BACKUP_DIR }}/storage/logs/laravel.log
+            sudo chown -R www-data:www-data ${{ secrets.API_DIR }}/storage
+            sudo chown -R www-data:www-data ${{ secrets.API_DIR }}/bootstrap/cache
+            touch ${{ secrets.API_DIR }}/storage/logs/laravel.log
+            sudo chown www-data:www-data ${{ secrets.API_DIR }}/storage/logs/laravel.log
+            sudo chmod 664 ${{ secrets.API_DIR }}/storage/logs/laravel.log
 
             echo "Deployment complete!"
           EOF
