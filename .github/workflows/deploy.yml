@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Configure SSH
         run: |
@@ -19,19 +21,26 @@ jobs:
           chmod 600 ~/.ssh/ec2_key
           ssh-keyscan ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
 
-      - name: Deploy Application
+      - name: Deploy Application and Scripts
         run: |
+          # First upload bash_scripts using scp
+          scp -i ~/.ssh/ec2_key -o StrictHostKeyChecking=no -r ./bash_scripts ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/
+
+          # Then run the deployment commands
           ssh -i ~/.ssh/ec2_key -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_IP }} << 'EOF'
-            # 1. Create api directory structure
+            # 1. Create api directory
             sudo mkdir -p /apps/uniAPI
             sudo chown -R ubuntu:www-data /apps/uniAPI
             sudo chmod -R 775 /apps/uniAPI
 
-            # 2. Create scripts directory
-            mkdir -p /home/ubuntu/bash_scripts
-            chmod 755 /home/ubuntu/bash_scripts
+            # 2. Verify bash_scripts were transferred
+            echo "Contents of bash_scripts:"
+            ls -la /home/ubuntu/bash_scripts
 
-            # 3. Deploy application code
+            # 3. Make scripts executable
+            chmod +x /home/ubuntu/bash_scripts/*.sh
+
+            # 4. Deploy api app
             cd /apps/uniAPI
             if [ -d .git ]; then
               git pull origin master
@@ -39,27 +48,13 @@ jobs:
               git clone https://github.com/edibily12/uniAPI.git .
             fi
 
-            # 4. Deploy bash scripts from repo
-            cd /home/ubuntu/bash_scripts
-            if [ -d "/apps/uniAPI/bash_scripts" ]; then
-              cp -r /apps/uniAPI/bash_scripts/* .
-              chmod +x *.sh
-            fi
-
-            # 5. Laravel setup
-            cd /apps/uniAPI
+            # 5. api setup
             composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
-
-            # 6. Fix permissions
-            sudo chown -R ubuntu:www-data /apps/uniAPI
-            sudo chmod -R 775 /apps/uniAPI/storage
-            sudo chmod -R 775 /apps/uniAPI/bootstrap/cache
-
-            # 7. Set up log file
+            sudo chown -R www-data:www-data /apps/uniAPI/storage
+            sudo chown -R www-data:www-data /apps/uniAPI/bootstrap/cache
             touch /apps/uniAPI/storage/logs/laravel.log
             sudo chown www-data:www-data /apps/uniAPI/storage/logs/laravel.log
             sudo chmod 664 /apps/uniAPI/storage/logs/laravel.log
 
-            # 8. Ensure www-data can write to cache
-            sudo chown -R www-data:www-data /apps/uniAPI/bootstrap/cache
+            echo "Deployment complete!"
           EOF
