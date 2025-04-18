@@ -24,7 +24,7 @@ jobs:
       - name: Create config file on EC2
         run: |
           ssh -i ~/.ssh/ec2_key -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_IP }} << EOF
-            sudo bash -c 'cat > /etc/backup_config.conf
+            sudo bash -c 'cat > /etc/backup_config.conf << "CONFIG"
             BACKUP_LOG_FILE=${{ secrets.BACKUP_LOG_FILE }}
             BACKUP_DIR=${{ secrets.BACKUP_DIR }}
             API_DIR=${{ secrets.API_DIR }}
