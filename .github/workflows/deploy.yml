@@ -21,7 +21,7 @@ jobs:
           chmod 600 ~/.ssh/ec2_key
           ssh-keyscan ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
 
-      - name: Create config file on EC2
+      - name: Create config file to the server
         run: |
           ssh -i ~/.ssh/ec2_key -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_IP }} << EOF
             sudo bash -c 'cat > /etc/backup_config.conf << "CONFIG"
@@ -47,12 +47,12 @@ jobs:
             sudo chown -R ubuntu:www-data ${{ secrets.BACKUP_DIR }}
             sudo chmod -R 775 ${{ secrets.BACKUP_DIR }}
 
-            # 2. Verify bash_scripts were transferred
-            echo "Contents of bash_scripts:"
-            ls -la /home/ubuntu/bash_scripts
+            # 2. Verify bash scripts were transferred
+            echo "Contents of bash scripts:"
+            ls -la ${{ secrets.BASH_DIR }}
 
             # 3. Make scripts executable
-            chmod +x /home/ubuntu/bash_scripts/*.sh
+            chmod +x ${{ secrets.BASH_DIR }}/*.sh
 
             # 4. Deploy api app
             cd ${{ secrets.BACKUP_DIR }}
