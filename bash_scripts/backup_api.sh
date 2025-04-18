@@ -23,9 +23,9 @@ echo " " >> $LOG_FILE
 
 # Backup database (MySQL)
 DB_BACKUP_FILE="$BACKUP_DIR/db_backup_$TIMESTAMP.sql"
-DB_USER="admin"
-DB_PASS="@ALUTAcontinua1996"
-DB_NAME="cs421_db"
+DB_USER="${{ secrets.DB_USER }}"
+DB_PASS="${{ secrets.DB_PASS }}"
+DB_NAME="${{ secrets.DB_NAME }}"
 mysqldump -u "$DB_USER" -p"$DB_PASS" "$DB_NAME" > $DB_BACKUP_FILE 2>> $LOG_FILE
 if [ $? -eq 0 ]; then
     echo "[$(date "+%Y-%m-%d %H:%M:%S")] Database backup successful" >> $LOG_FILE
