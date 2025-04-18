@@ -99,7 +99,25 @@ php artisan serve --host=0.0.0.0 --port=9090
 
 ## API Endpoints
 
-| Method | URL            | Description |
-|--------|--------------|-------------|
-| GET    | `/api/students` | [List all students](http://13.60.14.29:9090/api/students) |
-| GET    | `/api/subjects` | [List all subjects](http://13.60.14.29:9090/api/subjects) |
+| Method | URL            | Description                                                 |
+|--------|--------------|-------------------------------------------------------------|
+| GET    | `/api/students` | [List all students](http://13.60.253.221:9090/api/students) |
+| GET    | `/api/subjects` | [List all subjects](http://13.60.253.221:9090/api/subjects) |
+
+
+## Backup Schemes
+
+### 1. Full Backup
+**Execution**: Copies all selected files every time  
+**Advantages**: Simple to restore, complete data copy  
+**Disadvantages**: Storage-intensive, time-consuming
+
+### 2. Incremental Backup
+**Execution**: Backs up only changed files since last backup (any type)  
+**Advantages**: Fast, storage-efficient  
+**Disadvantages**: Complex restore (need full + all incrementals)
+
+### 3. Differential Backup
+**Execution**: Backs up changes since last full backup  
+**Advantages**: Faster restore than incremental  
+**Disadvantages**: More storage than incremental
