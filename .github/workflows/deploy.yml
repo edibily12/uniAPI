@@ -70,5 +70,5 @@ jobs:
             sudo chown www-data:www-data ${{ secrets.API_DIR }}/storage/logs/laravel.log
             sudo chmod 664 ${{ secrets.API_DIR }}/storage/logs/laravel.log
 
-            echo "Deployment complete!"
+            echo "Deployment completed succcessfully!"
           EOF
