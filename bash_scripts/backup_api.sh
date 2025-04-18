@@ -1,9 +1,9 @@
 #!/bin/bash
 
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-LOG_FILE="/var/log/backup.log"
-BACKUP_DIR="/home/ubuntu/backups"
-API_DIR="/home/ubuntu/apps/uniAPI"
+LOG_FILE="${{ secrets.BACKUP_LOG_FILE }}"
+BACKUP_DIR="${{ secrets.BACKUP_DIR }}"
+API_DIR="${{ secrets.API_DIR }}"
 
 echo "[$(date "+%Y-%m-%d %H:%M:%S")] Starting backup..." >> $LOG_FILE
 echo " " >> $LOG_FILE
