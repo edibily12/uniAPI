@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Load configuration
-if [ -r "/etc/backup_config.conf" ]; then
-    source "/etc/backup_config.conf"
+if [ -r "/etc/cs421_config.conf" ]; then
+    source "/etc/cs421_config.conf"
 else
     echo "Error: Config file not found or readable" >&2
     exit 1
