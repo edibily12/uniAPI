@@ -21,19 +21,17 @@ jobs:
           chmod 600 ~/.ssh/ec2_key
           ssh-keyscan ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
 
-      - name: Create config file to the server
+      - name: Create secure config file
         run: |
-          ssh -i ~/.ssh/ec2_key ubuntu@${{ secrets.EC2_IP }} << 'EOL'
-          sudo bash -c 'cat > /etc/backup_config.conf << "EOF"
-            BACKUP_LOG_FILE=${{ secrets.BACKUP_LOG_FILE }}
-            BACKUP_DIR=${{ secrets.BACKUP_DIR }}
-            API_DIR=${{ secrets.API_DIR }}
-            DB_USER=${{ secrets.DB_USER }}
-            DB_PASS=${{ secrets.DB_PASS }}
-            DB_NAME=${{ secrets.DB_NAME }}
-            CONFIG'
-            sudo chmod 600 /etc/backup_config.conf
+          ssh -i ~/.ssh/ec2_key ubuntu@${{ secrets.EC2_IP }} "sudo bash -c 'cat > /etc/backup_config.conf <<\"EOF\"
+          BACKUP_LOG_FILE=${{ secrets.BACKUP_LOG_FILE }}
+          BACKUP_DIR=${{ secrets.BACKUP_DIR }}
+          API_DIR=${{ secrets.API_DIR }}
+          DB_USER=${{ secrets.DB_USER }}
+          DB_PASS=${{ secrets.DB_PASS }}
+          DB_NAME=${{ secrets.DB_NAME }}
           EOF
+          ' && sudo chmod 600 /etc/backup_config.conf && sudo chown root:root /etc/backup_config.conf"
 
       - name: Deploy Application and Scripts
         run: |
