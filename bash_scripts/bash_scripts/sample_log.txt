@@ -1,0 +1,163 @@
+************** HEALTH CHECK **********************
+ubuntu@ip-10-0-8-226:~$ cat /var/log/server_health.log 
+[2025-04-23 10:16:27] Starting server health check...
+ 
+[2025-04-23 10:16:27] CPU Usage: 16.6%
+ 
+[2025-04-23 10:16:27] Memory Free: 7.42%
+[2025-04-23 10:16:27] WARNING: Low free memory!
+ 
+[2025-04-23 10:16:27] Disk Used: 55%
+ 
+[2025-04-23 10:16:27] Apache is running
+ 
+[2025-04-23 10:16:27] students endpoint: OK
+[2025-04-23 10:16:27] api/subjects endpoint: OK
+[2025-04-23 10:16:27] Health check completed
+##############################################################
+ 
+[2025-04-23 10:18:34] Starting server health check...
+ 
+[2025-04-23 10:18:34] CPU Usage: 0%
+ 
+[2025-04-23 10:18:34] Memory Free: 7.11%
+[2025-04-23 10:18:34] WARNING: Low free memory!
+ 
+[2025-04-23 10:18:34] Disk Used: 55%
+ 
+[2025-04-23 10:18:34] ERROR: Apache is not running!
+ 
+[2025-04-23 10:18:34] students endpoint: OK
+[2025-04-23 10:18:34] api/subjects endpoint: OK
+[2025-04-23 10:18:34] Health check completed
+##############################################################
+ 
+[2025-04-23 10:20:04] Starting server health check...
+ 
+[2025-04-23 10:20:04] CPU Usage: 0%
+ 
+[2025-04-23 10:20:04] Memory Free: 7.63%
+[2025-04-23 10:20:04] WARNING: Low free memory!
+ 
+[2025-04-23 10:20:04] Disk Used: 55%
+ 
+[2025-04-23 10:20:04] Apache is running
+ 
+[2025-04-23 10:20:04] students endpoint: OK
+[2025-04-23 10:20:04] ERROR: api/subjectss endpoint not responding!
+[2025-04-23 10:20:04] Health check completed
+##############################################################
+
+************** BACKUPS **********************
+ubuntu@ip-10-0-8-226:~$ ls backups/
+api_backup_20250423_103825.tar.gz  api_backup_20250423_113324.tar.gz  db_backup_20250423_113317.sql
+api_backup_20250423_113317.tar.gz  db_backup_20250423_103825.sql      db_backup_20250423_113324.sql
+ubuntu@ip-10-0-8-226:~$ cat /var/log/backup.log 
+[2025-04-23 10:38:25] Starting backup...
+ 
+[2025-04-23 10:38:29] API backup successful
+ 
+mysqldump: Got error: 1049: Unknown database 'mystudents' when selecting the database
+[2025-04-23 10:38:30] ERROR: Database backup failed
+ 
+[2025-04-23 10:38:30] Cleaned up backups older than 7 days
+[2025-04-23 10:38:30] Backup process completed
+###########################################
+ 
+[2025-04-23 11:33:17] Starting backup...
+ 
+[2025-04-23 11:33:21] API backup successful
+ 
+[2025-04-23 11:33:21] Database backup successful
+ 
+[2025-04-23 11:33:21] Cleaned up backups older than 7 days
+[2025-04-23 11:33:21] Backup process completed
+###########################################
+ 
+[2025-04-23 11:33:24] Starting backup...
+ 
+[2025-04-23 11:33:28] API backup successful
+ 
+[2025-04-23 11:33:28] Database backup successful
+ 
+[2025-04-23 11:33:28] Cleaned up backups older than 7 days
+[2025-04-23 11:33:28] Backup process completed
+###########################################
+
+
+************** UPDATE SERVER **********************
+ubuntu@ip-10-0-8-226:~$ sudo ~/bash_scripts/update_server.sh 
+ubuntu@ip-10-0-8-226:~$ cat /var/log/update.log
+[2025-04-23 11:17:16] Starting server update...
+ 
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Hit:1 http://eu-north-1.ec2.archive.ubuntu.com/ubuntu noble InRelease
+Get:2 http://eu-north-1.ec2.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Hit:3 http://eu-north-1.ec2.archive.ubuntu.com/ubuntu noble-backports InRelease
+Hit:4 http://security.ubuntu.com/ubuntu noble-security InRelease
+Hit:5 https://ppa.launchpadcontent.net/ondrej/php/ubuntu noble InRelease
+Fetched 126 kB in 0s (285 kB/s)
+Reading package lists...
+Building dependency tree...
+Reading state information...
+All packages are up to date.
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+[2025-04-23 11:17:24] System packages updated
+ 
+From https://github.com/nshobairwe/spring-boot-student-subjects-api.git
+ * branch            main     -> FETCH_HEAD
+error: Your local changes to the following files would be overwritten by merge:
+	.gitignore
+	README.md
+Please commit your changes or stash them before you merge.
+Aborting
+Updating 7aa5424..d105e7c
+[2025-04-23 11:17:25] ERROR: Git pull failed
+[2025-04-23 11:39:23] Starting server update...
+ 
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Hit:1 http://eu-north-1.ec2.archive.ubuntu.com/ubuntu noble InRelease
+Get:2 http://eu-north-1.ec2.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Hit:3 http://eu-north-1.ec2.archive.ubuntu.com/ubuntu noble-backports InRelease
+Hit:4 http://security.ubuntu.com/ubuntu noble-security InRelease
+Hit:5 https://ppa.launchpadcontent.net/ondrej/php/ubuntu noble InRelease
+Fetched 126 kB in 1s (240 kB/s)
+Reading package lists...
+Building dependency tree...
+Reading state information...
+All packages are up to date.
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+[2025-04-23 11:39:27] System packages updated
+ 
+From https://github.com/nshobairwe/spring-boot-student-subjects-api.git
+ * branch            main     -> FETCH_HEAD
+Updating 7aa5424..d105e7c
+Fast-forward
+ .gitignore |  1 +
+ README.md  | 82 ++++++++++++++++++++++++++++++++++++++++++++++++++------------
+ 2 files changed, 67 insertions(+), 16 deletions(-)
+[2025-04-23 11:39:27] API code updated from GitHub
+ 
+[2025-04-23 11:39:28] Nginx restarted
+ 
+[2025-04-23 11:39:28] Update process completed
+############################################
+
