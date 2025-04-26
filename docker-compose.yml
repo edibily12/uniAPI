@@ -6,7 +6,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        image: uniapi
+        image: edibily12/uniapi-app:latest
         container_name: uniapi_app
         volumes:
             - .:/var/www
@@ -21,7 +21,7 @@ services:
 
     # MySQL Database Service
     db:
-        image: mysql:latest
+        image: edibily12/uniapi-mysql:latest
         container_name: uniapi_db
         environment:
             MYSQL_ROOT_PASSWORD: root
@@ -38,7 +38,7 @@ services:
 
     # Nginx Service
     nginx:
-        image: nginx:alpine
+        image: edibily12/uniapi-nginx:latest
         container_name: uniapi_nginx
         ports:
             - "8000:80"
