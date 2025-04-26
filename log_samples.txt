@@ -1,0 +1,238 @@
+************************ SERVER HEALTH LOGS ************************
+ubuntu@ip-172-31-18-247:~$ cat /var/log/server_health.log
+[2025-04-18 14:30:47] Starting server health check...
+
+[2025-04-18 14:30:47] CPU Usage: 0%
+
+[2025-04-18 14:30:47] Memory Free: 8.53%
+[2025-04-18 14:30:47] WARNING: Low free memory!
+
+[2025-04-18 14:30:47] Disk Used: 21%
+
+[2025-04-18 14:30:47] Apache is running
+
+[2025-04-18 14:30:47] ERROR: students endpoint not responding!
+[2025-04-18 14:30:47] ERROR: subjects endpoint not responding!
+[2025-04-18 14:30:47] Health check completed
+##############################################################
+
+[2025-04-18 14:31:15] Starting server health check...
+
+[2025-04-18 14:31:15] CPU Usage: 0%
+
+[2025-04-18 14:31:15] Memory Free: 8.53%
+[2025-04-18 14:31:15] WARNING: Low free memory!
+
+[2025-04-18 14:31:15] Disk Used: 21%
+
+[2025-04-18 14:31:15] Apache is running
+
+[2025-04-18 14:31:15] ERROR: students endpoint not responding!
+[2025-04-18 14:31:15] ERROR: subjects endpoint not responding!
+[2025-04-18 14:31:15] Health check completed
+##############################################################
+
+[2025-04-18 14:31:18] Starting server health check...
+
+[2025-04-18 14:31:18] CPU Usage: 0%
+
+[2025-04-18 14:31:18] Memory Free: 8.42%
+[2025-04-18 14:31:18] WARNING: Low free memory!
+
+[2025-04-18 14:31:18] Disk Used: 21%
+
+[2025-04-18 14:31:18] Apache is running
+
+[2025-04-18 14:31:18] ERROR: students endpoint not responding!
+[2025-04-18 14:31:18] ERROR: subjects endpoint not responding!
+[2025-04-18 14:31:18] Health check completed
+##############################################################
+
+ubuntu@ip-172-31-18-247:~$
+
+************************ BACKUP API LOGS ************************
+ubuntu@ip-172-31-18-247:~$ cat /var/log/backup.log
+[2025-04-18 14:32:19] Starting backup...
+
+[2025-04-18 14:32:24] API backup successful
+
+mysqldump: Error: 'Access denied; you need (at least one of) the PROCESS privilege(s) for this operation' when trying to dump tablespaces
+[2025-04-18 14:32:24] Database backup successful
+
+[2025-04-18 14:32:24] Cleaned up backups older than 7 days
+[2025-04-18 14:32:24] Backup process completed
+###########################################
+
+[2025-04-18 14:32:27] Starting backup...
+
+[2025-04-18 14:32:28] API backup successful
+
+mysqldump: Error: 'Access denied; you need (at least one of) the PROCESS privilege(s) for this operation' when trying to dump tablespaces
+[2025-04-18 14:32:28] Database backup successful
+
+[2025-04-18 14:32:28] Cleaned up backups older than 7 days
+[2025-04-18 14:32:28] Backup process completed
+###########################################
+
+[2025-04-18 14:32:30] Starting backup...
+
+[2025-04-18 14:32:33] API backup successful
+
+mysqldump: Error: 'Access denied; you need (at least one of) the PROCESS privilege(s) for this operation' when trying to dump tablespaces
+[2025-04-18 14:32:33] Database backup successful
+
+[2025-04-18 14:32:33] Cleaned up backups older than 7 days
+[2025-04-18 14:32:33] Backup process completed
+###########################################
+
+************************ UPDATE SERVER LOGS ************************
+ubuntu@ip-172-31-18-247:~$ cat /var/log/update.log
+[2025-04-18 14:18:41] Starting server update...
+
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Hit:1 http://eu-north-1.ec2.archive.ubuntu.com/ubuntu noble InRelease
+Get:2 http://eu-north-1.ec2.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Hit:3 http://eu-north-1.ec2.archive.ubuntu.com/ubuntu noble-backports InRelease
+Hit:4 http://security.ubuntu.com/ubuntu noble-security InRelease
+Hit:5 https://ppa.launchpadcontent.net/ondrej/php/ubuntu noble InRelease
+Fetched 126 kB in 1s (112 kB/s)
+Reading package lists...
+Building dependency tree...
+Reading state information...
+All packages are up to date.
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+[2025-04-18 14:18:51] System packages updated
+
+From https://github.com/edibily12/uniAPI
+ * branch            master     -> FETCH_HEAD
+error: Your local changes to the following files would be overwritten by merge:
+	.github/workflows/deploy.yml
+	README.md
+Please commit your changes or stash them before you merge.
+Aborting
+Updating cefe76a..7aa5424
+[2025-04-18 14:18:52] ERROR: Git pull failed
+[2025-04-18 14:21:32] Starting server update...
+
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Hit:1 http://eu-north-1.ec2.archive.ubuntu.com/ubuntu noble InRelease
+Hit:2 http://eu-north-1.ec2.archive.ubuntu.com/ubuntu noble-updates InRelease
+Hit:3 http://eu-north-1.ec2.archive.ubuntu.com/ubuntu noble-backports InRelease
+Hit:4 http://security.ubuntu.com/ubuntu noble-security InRelease
+Hit:5 https://ppa.launchpadcontent.net/ondrej/php/ubuntu noble InRelease
+Reading package lists...
+Building dependency tree...
+Reading state information...
+All packages are up to date.
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+[2025-04-18 14:21:36] System packages updated
+
+From https://github.com/edibily12/uniAPI
+ * branch            master     -> FETCH_HEAD
+error: Your local changes to the following files would be overwritten by merge:
+	.github/workflows/deploy.yml
+	README.md
+Please commit your changes or stash them before you merge.
+Aborting
+Updating cefe76a..7aa5424
+[2025-04-18 14:21:37] ERROR: Git pull failed
+[2025-04-18 14:22:04] Starting server update...
+
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Hit:1 http://eu-north-1.ec2.archive.ubuntu.com/ubuntu noble InRelease
+Hit:2 http://eu-north-1.ec2.archive.ubuntu.com/ubuntu noble-updates InRelease
+Hit:3 http://eu-north-1.ec2.archive.ubuntu.com/ubuntu noble-backports InRelease
+Hit:4 http://security.ubuntu.com/ubuntu noble-security InRelease
+Hit:5 https://ppa.launchpadcontent.net/ondrej/php/ubuntu noble InRelease
+Reading package lists...
+Building dependency tree...
+Reading state information...
+All packages are up to date.
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+[2025-04-18 14:22:08] System packages updated
+
+From https://github.com/edibily12/uniAPI
+ * branch            master     -> FETCH_HEAD
+error: Your local changes to the following files would be overwritten by merge:
+	.github/workflows/deploy.yml
+	README.md
+Please commit your changes or stash them before you merge.
+Aborting
+Updating cefe76a..7aa5424
+[2025-04-18 14:22:09] ERROR: Git pull failed
+[2025-04-18 14:25:07] Starting server update...
+
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Hit:1 http://eu-north-1.ec2.archive.ubuntu.com/ubuntu noble InRelease
+Get:2 http://eu-north-1.ec2.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Hit:3 http://eu-north-1.ec2.archive.ubuntu.com/ubuntu noble-backports InRelease
+Hit:4 http://security.ubuntu.com/ubuntu noble-security InRelease
+Hit:5 https://ppa.launchpadcontent.net/ondrej/php/ubuntu noble InRelease
+Fetched 126 kB in 1s (153 kB/s)
+Reading package lists...
+Building dependency tree...
+Reading state information...
+All packages are up to date.
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+[2025-04-18 14:25:12] System packages updated
+
+From https://github.com/edibily12/uniAPI
+ * branch            master     -> FETCH_HEAD
+Updating cefe76a..7aa5424
+Fast-forward
+ .github/workflows/deploy.yml       |  66 ++++++++++++++++++++++++-------------
+ README.md                          |  26 ++++++++++++---
+ T21-03-03273_cs421_assignment1.pdf | Bin 0 -> 83423 bytes
+ bash_scripts/backup_api.sh         |  47 ++++++++++++++++++++++++++
+ bash_scripts/health_check.sh       |  64 +++++++++++++++++++++++++++++++++++
+ bash_scripts/update_server.sh      |  36 ++++++++++++++++++++
+ 6 files changed, 213 insertions(+), 26 deletions(-)
+ create mode 100644 T21-03-03273_cs421_assignment1.pdf
+ create mode 100644 bash_scripts/backup_api.sh
+ create mode 100644 bash_scripts/health_check.sh
+ create mode 100644 bash_scripts/update_server.sh
+[2025-04-18 14:25:12] API code updated from GitHub
+
+Warning: The unit file, source configuration file or drop-ins of apache2.service changed on disk. Run 'systemctl daemon-reload' to reload units.
+[2025-04-18 14:25:12] Apacche restarted
+
+[2025-04-18 14:25:12] Update process completed
+############################################
+
+ubuntu@ip-172-31-18-247:~$

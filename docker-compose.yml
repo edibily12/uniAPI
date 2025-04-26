@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+    # PHP-FPM Service
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: uniapi
+        container_name: uniapi_app
+        volumes:
+            - .:/var/www
+        environment:
+            - DB_HOST=db
+            - DB_PORT=3306
+            - DB_DATABASE=uniapi
+            - DB_USERNAME=root
+            - DB_PASSWORD=root
+        depends_on:
+            - db
+
+    # MySQL Database Service
+    db:
+        image: mysql:latest
+        container_name: uniapi_db
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: uniapi
+        ports:
+            - "3307:3306"
+        volumes:
+            - dbdata:/var/lib/mysql
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            interval: 5s
+            timeout: 10s
+            retries: 10
+
+    # Nginx Service
+    nginx:
+        image: nginx:alpine
+        container_name: uniapi_nginx
+        ports:
+            - "8000:80"
+        volumes:
+            - ./nginx:/etc/nginx/conf.d
+            - .:/var/www
+        depends_on:
+            - app
+
+volumes:
+    dbdata:
