@@ -31,9 +31,9 @@ RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage \
     && mkdir -p /var/log/php-fpm \
     && touch /var/log/php-fpm/error.log \
-    && chown www-data:www-data /var/log/php-fpm/error.log \
+    && chown www-data:www-data /var/log/php-fpm/error.log
 
-# optimize for production
+# Optimize for production
 RUN php artisan optimize
 
 # Expose port 9000 for PHP-FPM
