@@ -16,29 +16,38 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $programId = Program::where('name', 'Software Engineering')->firstOrFail()->id;
+        try {
+            $programId = Program::where('name', 'Software Engineering')->firstOrFail()->id;
 
-        $subjectsByYear = Year::with(['subjects' => function($query) use ($programId) {
-            $query->where('program_id', $programId)
-                ->select('id', 'name', 'program_id', 'year_id');
-        }])
-            ->get()
-            ->mapWithKeys(function ($year) {
-                return [
-                    $year->name => $year->subjects->map(function ($subject) {
-                        return [
-                            'id' => $subject->id,
-                            'name' => $subject->name
-                        ];
-                    })
-                ];
-            });
+            $subjectsByYear = Year::with(['subjects' => function ($query) use ($programId) {
+                $query->where('program_id', $programId)
+                    ->select('id', 'name', 'program_id', 'year_id');
+            }])
+                ->get()
+                ->mapWithKeys(function ($year) {
+                    return [
+                        $year->name => $year->subjects->map(function ($subject) {
+                            return [
+                                'id' => $subject->id,
+                                'name' => $subject->name
+                            ];
+                        })
+                    ];
+                });
 
-        return response()->json([
-            'success' => true,
-            'program' => 'Software Engineering',
-            'data' => $subjectsByYear
-        ]);
+            return response()->json([
+                'success' => true,
+                'program' => 'Software Engineering',
+                'data' => $subjectsByYear
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Database connection error',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**

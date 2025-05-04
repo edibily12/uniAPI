@@ -15,21 +15,29 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('program')
-            ->take(10)
-            ->get()
-            ->map(function ($student) {
-                return [
-                    'name' => $student->name,
-                    'program' => $student->program->name
-                ];
-            });
+        try {
+            $students = Student::with('program')
+                ->take(10)
+                ->get()
+                ->map(function ($student) {
+                    return [
+                        'name' => $student->name,
+                        'program' => $student->program->name
+                    ];
+                });
 
-        return response()->json([
-            'success' => true,
-            'count' => $students->count(),
-            'data' => $students
-        ]);
+            return response()->json([
+                'success' => true,
+                'count' => $students->count(),
+                'data' => $students
+            ]);
+        }catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Database connection error',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
